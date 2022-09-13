@@ -1,3 +1,5 @@
 config:
+  Joes-Pulumi-Learning:image: simple-web-server
+  Joes-Pulumi-Learning:version: v1
   linode:token:
     secure: AAABAC9xdEbhw3CRGM/JzAv/0EtT+Mam83QHIKwUzaviwRrtDUcNxpS8OOJDyPCAaIkhyYxaMMsP0Qr28XK5CViwJeNPLdpdjDSqO76UMMjhprGRwaUWUZhBPHG3RiBk
