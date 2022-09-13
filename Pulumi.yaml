@@ -1,4 +1,4 @@
-name: pulumi-linode-test
+name: Joes-Pulumi-Learning
 description: A minimal Linode Python Pulumi program
 runtime:
     name: python
