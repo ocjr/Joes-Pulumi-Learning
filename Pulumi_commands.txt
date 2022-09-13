@@ -1,0 +1,20 @@
+Create a new Pulumi Project, in an empty folder: 
+$ pulumi new -y
+
+Set Linode Token for interacting with Linode: 
+$ pulumi config set linode:token <VALUE> --secret
+
+List Current Pulumi Stacks: 
+$ pulumi stack ls
+
+Create Instance, or provision resources for selected stack
+$ pulumi up
+
+Delete Instance, or de-provision resources for selected stack
+$ pulumi down
+
+Create a new stack under the current Project
+$ pulumi stack init <STACK_NAME>
+
+Select a stack from the existing Stacks
+$ pulumi stack select <STACK_NAME>

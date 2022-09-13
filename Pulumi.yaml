@@ -1,0 +1,6 @@
+name: pulumi-linode-test
+description: A minimal Linode Python Pulumi program
+runtime:
+    name: python
+    options:
+        virtualenv: venv
