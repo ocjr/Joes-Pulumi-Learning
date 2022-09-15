@@ -1,0 +1,30 @@
+Create a new Pulumi Project, in an empty folder: 
+$ pulumi new -y
+
+Set Linode Token for interacting with Linode: 
+$ pulumi config set linode:token <VALUE> --secret
+
+List Current Pulumi Stacks: 
+$ pulumi stack ls
+
+Create Instance, or provision resources for selected stack
+$ pulumi up
+
+Delete Instance, or de-provision resources for selected stack
+$ pulumi down
+
+Create a new stack under the current Project
+$ pulumi stack init <STACK_NAME>
+
+Select a stack from the existing Stacks
+$ pulumi stack select <STACK_NAME>
+
+
+
+
+ISSUES:
+    Issue with grpc package:
+        Install using wheels in /artifact/
+        $ pip install grpcio-1.48.1-cp39-cp39-macosx_11_0_arm64.whl
+        Move grpc folder from ~/Miniconda3/lib/python3.9/site-packages
+            to venv/lib/python3.9/site-packages
