@@ -1,27 +1,38 @@
-"""An AWS Python Pulumi program"""
+import iam
+import vpc
+import utils
 
-import mimetypes
 import pulumi
-from pulumi_aws import s3
+from pulumi_aws import eks
 
-import os
+eks_cluster = eks.Cluster(
+    'eks-cluster',
+    role_arn=iam.eks_cluster_role.arn,
+    tags={
+        'Name': 'pulumi-eks-cluster',
+    },
+    vpc_config=eks.ClusterVpcConfigArgs(
+        public_access_cidrs=['0.0.0.0/0'],
+        security_group_ids=[vpc.eks_security_group.id],
+        subnet_ids=vpc.subnet_ids,
+    ),
+)
 
-# Create an AWS resource (S3 Bucket)
-bucket = s3.Bucket('joes-pulumi-bucket', website={"index_document": "index.html"})
+eks_node_group = eks.NodeGroup(
+    'eks-node-group',
+    cluster_name=eks_cluster.name,
+    node_group_name='pulumi-eks-nodegroup',
+    node_role_arn=iam.ec2_node_role.arn,
+    subnet_ids=vpc.subnet_ids,
+    tags={
+        'Name': 'pulumi-cluster-nodeGroup',
+    },
+    scaling_config=eks.NodeGroupScalingConfigArgs(
+        desired_size=3,
+        max_size=3,
+        min_size=1,
+    ),
+)
 
-web_dir = "src"
-
-for file in os.listdir(web_dir):
-
-    filepath = os.path.join(web_dir,file)
-    mime_type, _ = mimetypes.guess_type(filepath)
-
-    obj = s3.BucketObject(file,
-        bucket=bucket.id,
-        source=pulumi.FileAsset(filepath),
-        acl="public-read",
-        content_type=mime_type)
-
-# Export the name of the bucket
-pulumi.export('bucket_name', bucket.id)
-pulumi.export('bucket_endpoint', pulumi.Output.concat("http://", bucket.website_endpoint))
+pulumi.export('cluster-name', eks_cluster.name)
+pulumi.export('kubeconfig', utils.generate_kube_config(eks_cluster))
